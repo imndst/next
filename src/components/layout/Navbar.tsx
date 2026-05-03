@@ -1,51 +1,86 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 export default function Navbar() {
-  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
-  const linkClass = (path: string) =>
-    pathname === path
-      ? "text-orange-500 font-semibold"
-      : "text-gray-600 dark:text-gray-300 hover:text-orange-500";
+  const linkClass =
+    "text-sm text-gray-600 hover:text-black transition py-2 md:py-0";
 
   return (
-    <header className="border-b bg-white dark:bg-[#0B0F19]">
-      <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
+    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b">
 
-        {/* 👤 BRAND */}
-        <Link href="/" className="text-xl font-bold text-orange-500">
-          ALI IMNDOUST
-        </Link>
+      <div className="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
 
-        {/* NAV */}
-        <nav className="hidden md:flex gap-6 text-sm items-center">
+        {/* LOGO */}
+        <div className="font-semibold tracking-tight text-black">
+          AI Portfolio
+        </div>
 
-          <Link href="/" className={linkClass("/")}>
+        {/* DESKTOP MENU */}
+        <div className="hidden md:flex items-center gap-8">
+
+          <a href="/" className={linkClass}>
             Home
-          </Link>
+          </a>
 
-          <Link href="/chat" className={linkClass("/chat")}>
+          <a href="/chat" className={linkClass}>
             AI Resume
-          </Link>
+          </a>
 
-        </nav>
+          <a href="/vault" className={linkClass}>
+            Security Vault
+          </a>
 
-        {/* CTA */}
-        <div className="flex items-center gap-3">
+        </div>
+
+        {/* CTA (desktop) */}
+        <div className="hidden md:flex">
+          <a
+            href="mailto:imndst@gmail.com"
+            className="text-xs px-4 py-2 rounded-full bg-black text-white hover:opacity-90 transition"
+          >
+            Hire Me
+          </a>
+        </div>
+
+        {/* MOBILE BUTTON */}
+        <button
+          onClick={() => setOpen(!open)}
+          className="md:hidden text-sm border px-3 py-1 rounded-full"
+        >
+          {open ? "Close" : "Menu"}
+        </button>
+
+      </div>
+
+      {/* MOBILE MENU */}
+      {open && (
+        <div className="md:hidden border-t px-6 py-4 flex flex-col gap-3 bg-white">
+
+          <a href="/" className={linkClass}>
+            Home
+          </a>
+
+          <a href="/chat" className={linkClass}>
+            AI Resume
+          </a>
+
+          <a href="/lamps" className={linkClass}>
+            Security Vault
+          </a>
 
           <a
             href="mailto:imndst@gmail.com"
-            className="text-xs px-4 py-2 rounded-full bg-black text-white hover:opacity-90"
+            className="mt-2 text-center text-xs px-4 py-2 rounded-full bg-black text-white"
           >
             Hire Me
           </a>
 
         </div>
+      )}
 
-      </div>
-    </header>
+    </nav>
   );
 }
