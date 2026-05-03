@@ -1,7 +1,30 @@
 export default function Footer() {
   return (
-    <footer className="border-t mt-20 p-10 text-center text-sm text-gray-500">
-      © 2026 Abanro. All rights reserved.
+    <footer className="fixed bottom-0 left-0 w-full border-t bg-white dark:bg-[#0B0F19] text-center text-sm text-gray-500 py-3 z-50">
+
+      <div className="flex flex-col md:flex-row items-center justify-center gap-2">
+
+        <span>
+          © {new Date().getFullYear()} ALI IMNDOUST
+        </span>
+
+        <span className="hidden md:inline">•</span>
+
+        <span>
+          Frontend Engineer (React • Next.js • TypeScript)
+        </span>
+
+        <span className="hidden md:inline">•</span>
+
+        <a
+          href="mailto:imndst@gmail.com"
+          className="text-orange-500 hover:underline"
+        >
+          Contact
+        </a>
+
+      </div>
+
     </footer>
   );
 }

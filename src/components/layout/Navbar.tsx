@@ -13,23 +13,37 @@ export default function Navbar() {
 
   return (
     <header className="border-b bg-white dark:bg-[#0B0F19]">
-      <div className="max-w-6xl mx-auto flex justify-between p-4">
+      <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
 
+        {/* 👤 BRAND */}
         <Link href="/" className="text-xl font-bold text-orange-500">
-          abanro.
+          ALI IMNDOUST
         </Link>
 
-        <nav className="hidden md:flex gap-6 text-sm">
+        {/* NAV */}
+        <nav className="hidden md:flex gap-6 text-sm items-center">
+
+          <Link href="/" className={linkClass("/")}>
+            Home
+          </Link>
+
           <Link href="/chat" className={linkClass("/chat")}>
-            Demo
+            AI Resume
           </Link>
-          <Link href="/pricing" className={linkClass("/pricing")}>
-            Pricing
-          </Link>
-          <Link href="/dashboard" className={linkClass("/dashboard")}>
-            Dashboard
-          </Link>
+
         </nav>
+
+        {/* CTA */}
+        <div className="flex items-center gap-3">
+
+          <a
+            href="mailto:imndst@gmail.com"
+            className="text-xs px-4 py-2 rounded-full bg-black text-white hover:opacity-90"
+          >
+            Hire Me
+          </a>
+
+        </div>
 
       </div>
     </header>

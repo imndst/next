@@ -3,6 +3,7 @@
 import { useState } from "react";
 import MobileFrame from "@/components/chat/MobileFrame";
 import { generateId } from "@/lib/utils";
+import { downloadFullResumePDF } from "@/lib/pdf"; 
 
 type Msg = {
   id: string;
@@ -12,9 +13,11 @@ type Msg = {
 };
 
 const quickQuestions = [
-  "What is Abanro?",
-  "How does Instagram automation work?",
-  "Pricing plans?",
+  "Introduce yourself",
+  "What are your skills?",
+  "Show your experience",
+  "Show your projects",
+  "How can I contact you?"
 ];
 
 export default function ChatPage() {
@@ -60,15 +63,22 @@ export default function ChatPage() {
 
   return (
     <MobileFrame>
-      
-      {/* HEADER */}
-      <div className="p-3 border-b flex justify-between">
-        <span className="font-semibold">abanro AI 💬</span>
-        <span className="text-xs text-gray-400">online</span>
+
+      {/* HEADER (RESUME STYLE) */}
+      <div className="p-3 border-b flex justify-between items-center">
+        <div>
+          <span className="font-semibold">ALI IMNDOUST</span>
+          <p className="text-xs text-gray-500">
+            Frontend Engineer • Resume AI Assistant
+          </p>
+        </div>
+
+        <span className="text-xs text-green-500">● available</span>
       </div>
 
-      {/* QUICK QUESTIONS (GLASS UI) */}
-      <div className="p-3 flex flex-wrap gap-2">
+      {/* ACTION BAR */}
+      <div className="p-3 flex gap-2 flex-wrap">
+
         {quickQuestions.map((q, i) => (
           <button
             key={i}
@@ -78,6 +88,15 @@ export default function ChatPage() {
             {q}
           </button>
         ))}
+
+        {/* 📄 DOWNLOAD CV BUTTON */}
+        <button
+          onClick={downloadFullResumePDF}
+          className="px-3 py-1 rounded-full bg-black text-white text-xs"
+        >
+          Download CV PDF
+        </button>
+
       </div>
 
       {/* CHAT */}
@@ -94,13 +113,12 @@ export default function ChatPage() {
                 className={
                   m.role === "user"
                     ? "bg-blue-500 text-white px-3 py-2 rounded-2xl"
-                    : "bg-white border px-3 py-2 rounded-2xl"
+                    : "bg-white border px-3 py-2 rounded-2xl whitespace-pre-line"
                 }
               >
                 {m.text}
               </div>
 
-              {/* ❤️ reaction */}
               {m.role === "bot" && (
                 <button
                   onClick={() => toggleLike(m.id)}
@@ -109,9 +127,11 @@ export default function ChatPage() {
                   {m.liked ? "❤️ liked" : "🤍 like"}
                 </button>
               )}
+
             </div>
           </div>
         ))}
+
       </div>
 
       {/* INPUT */}
@@ -120,7 +140,7 @@ export default function ChatPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           className="flex-1 border rounded-full px-4 py-2 text-sm"
-          placeholder="Ask anything..."
+          placeholder="Ask about Ali..."
         />
 
         <button
@@ -130,6 +150,7 @@ export default function ChatPage() {
           Send
         </button>
       </div>
+
     </MobileFrame>
   );
 }
