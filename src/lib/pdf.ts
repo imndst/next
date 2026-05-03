@@ -145,3 +145,75 @@ export function downloadFullResumePDF() {
 
   doc.save("ALI_IMANDOUST_CV.pdf");
 }
+
+export function downloadCoverLetterPDF() {
+  const doc = new jsPDF();
+  let y = 20;
+
+  const line = (text: string, size = 11) => {
+    doc.setFontSize(size);
+    const lines = doc.splitTextToSize(text, 180);
+    lines.forEach((l: string) => {
+      doc.text(l, 15, y);
+      y += 6;
+    });
+    y += 2;
+  };
+
+  const sectionGap = () => {
+    y += 6;
+  };
+
+  // HEADER
+  line("ALI IMANDOUST", 16);
+  line("Frontend Engineer (React, Next.js, TypeScript)", 11);
+
+  sectionGap();
+
+  line("Email: imndst@gmail.com");
+  line("LinkedIn: linkedin.com/in/imndst");
+  line("Portfolio: https://imndst.github.io/ali-imandoust-portfolio/");
+
+  sectionGap();
+
+  line("Dear Hiring Manager,", 11);
+
+  sectionGap();
+
+  // BODY (FULL TEXT - NO CUT)
+  line(
+    `I am a Senior Frontend Engineer with over 10 years of experience building scalable and high-performance web applications. My journey started with developing a complex ticket reservation system for cinema and live events using JavaScript, jQuery, HTML, and .NET at a time when modern frameworks were not part of my workflow.`
+  );
+
+  line(
+    `Building such platforms was extremely challenging. I approached the problem by breaking it down into smaller components and solving each part step by step. Without relying on modern libraries, I naturally began designing reusable UI systems myself, including layered cards, expandable components, and structured UI blocks. This experience helped me deeply understand component-based architecture long before I started using React.`
+  );
+
+  line(
+    `On the backend side, I gained strong experience with .NET, including Dependency Injection, JWT authentication, API design, and database interaction using Entity Framework. I also built early caching mechanisms by analyzing database changes and reducing unnecessary requests, which improved performance significantly.`
+  );
+
+  line(
+    `My approach to learning has always been driven by real-world challenges rather than theory alone. I carefully observed how frontend decisions impact performance, including DOM structure, rendering strategies, and client-server communication. I learned how inefficient rendering can affect memory usage and user experience, and I optimized my code accordingly.`
+  );
+
+  line(
+    `After transitioning to React and Next.js, I was able to scale everything I had learned into modern architectures. I worked on enterprise-level dashboards, implemented advanced filtering systems, and improved performance by approximately 30% through techniques such as code splitting, lazy loading, and architectural improvements.`
+  );
+
+  line(
+    `I pay close attention to both large-scale architecture and small UI details. From system performance and scalability to spacing, typography, and user interaction, I always aim to deliver a clean, efficient, and high-quality user experience. I strongly believe that great software is the result of both technical excellence and attention to detail.`
+  );
+
+  line(
+    `I am excited about the opportunity to bring my experience, problem-solving mindset, and engineering discipline to your team and contribute to building high-quality products.`
+  );
+
+  sectionGap();
+
+  // FOOTER
+  line("Sincerely,", 11);
+  line("Ali Imandoust", 11);
+
+  doc.save("ALI_IMANDOUST_COVER_LETTER.pdf");
+}

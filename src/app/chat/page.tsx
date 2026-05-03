@@ -1,9 +1,10 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import MobileFrame from "@/components/chat/MobileFrame";
 import { generateId } from "@/lib/utils";
-import { downloadFullResumePDF } from "@/lib/pdf"; 
+import { downloadFullResumePDF } from "@/lib/pdf";
+import { downloadCoverLetterPDF } from "@/lib/pdf";  
 
 type Msg = {
   id: string;
@@ -20,13 +21,21 @@ const quickQuestions = [
   "How can I contact you?"
 ];
 
+// 📄 Cover Letter Download
+
+
 export default function ChatPage() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
+  const [activeQuestion, setActiveQuestion] = useState<string | null>(null);
+
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const send = async (text: string) => {
     const msg = text || input;
     if (!msg) return;
+
+    setActiveQuestion(msg);
 
     const userMsg: Msg = {
       id: generateId(),
@@ -51,6 +60,11 @@ export default function ChatPage() {
     };
 
     setMessages((p) => [...p, botMsg]);
+
+    // 🔽 auto scroll
+    setTimeout(() => {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   };
 
   const toggleLike = (id: string) => {
@@ -64,7 +78,7 @@ export default function ChatPage() {
   return (
     <MobileFrame>
 
-      {/* HEADER (RESUME STYLE) */}
+      {/* HEADER */}
       <div className="p-3 border-b flex justify-between items-center">
         <div>
           <span className="font-semibold">ALI IMNDOUST</span>
@@ -83,18 +97,34 @@ export default function ChatPage() {
           <button
             key={i}
             onClick={() => send(q)}
-            className="backdrop-blur-md bg-white/40 border px-3 py-1 rounded-full text-xs hover:bg-white/70 transition"
+            className={`
+              px-3 py-1 rounded-full text-xs transition
+              border backdrop-blur-md
+              ${
+                activeQuestion === q
+                  ? "bg-black text-white border-black"
+                  : "bg-white/40 hover:bg-white/70"
+              }
+            `}
           >
             {q}
           </button>
         ))}
 
-        {/* 📄 DOWNLOAD CV BUTTON */}
+        {/* 📄 CV */}
         <button
           onClick={downloadFullResumePDF}
-          className="px-3 py-1 rounded-full bg-black text-white text-xs"
+          className="px-3 py-1 rounded-full bg-green-700 text-white text-xs"
         >
-          Download CV PDF
+          Download CV
+        </button>
+
+        {/* 💌 Cover Letter */}
+        <button
+          onClick={downloadCoverLetterPDF}
+          className="px-3 py-1 rounded-full bg-green-600 text-white text-xs"
+        >
+          Cover Letter
         </button>
 
       </div>
@@ -131,6 +161,9 @@ export default function ChatPage() {
             </div>
           </div>
         ))}
+
+        {/* 🔽 scroll anchor */}
+        <div ref={bottomRef} />
 
       </div>
 
